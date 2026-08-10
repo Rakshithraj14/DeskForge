@@ -1,0 +1,43 @@
+name: Build and ship to Telegram
+
+# Fires on every push landing on main/dev, which includes merge commits from
+# merged PRs. For "PR merges only" (no direct pushes), swap this for:
+#   on:
+#     pull_request:
+#       types: [closed]
+# and add `if: github.event.pull_request.merged == true` to the build job.
+on:
+  push:
+    branches: [main, dev]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      # ponytail: Telegram sendDocument caps uploads at 50MB; Electron NSIS
+      # installers commonly exceed that once real dependencies/assets are in.
+      # Upgrade path if this starts failing: upload to a GitHub Release /
+      # artifact store instead and send a link.
+      - name: Send installer to Telegram
+        shell: bash
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          set -e
+          FILE=$(ls dist/*.exe | head -n1)
+          curl -sS -F document=@"$FILE" \
+            -F chat_id="$TELEGRAM_CHAT_ID" \
+            -F caption="DeskForge build ${{ github.ref_name }} @ ${{ github.sha }}" \
+            "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument"
