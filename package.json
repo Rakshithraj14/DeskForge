@@ -1,0 +1,12 @@
+{
+  "name": "deskforge",
+  "version": "0.1.0",
+  "description": "AI-backed desktop companion character",
+  "private": true,
+  "main": "src/main/index.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test test/"
+  },
+  "license": "UNLICENSED"
+}
