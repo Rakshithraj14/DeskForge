@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld('deskforge', {
   onStateUpdate: (callback) => ipcRenderer.on('character:state', (event, state) => callback(state)),
   getActiveCharacter: () => ipcRenderer.invoke('character:get-active'),
   onCharacterChanged: (callback) => ipcRenderer.on('character:changed', (event, id) => callback(id)),
+  onMessage: (callback) => ipcRenderer.on('character:message', (event, text) => callback(text)),
   expandForPrompt: () => ipcRenderer.invoke('overlay:expand'),
   collapse: () => ipcRenderer.invoke('overlay:collapse'),
   sendPrompt: (text) => ipcRenderer.invoke('ai:prompt', text),

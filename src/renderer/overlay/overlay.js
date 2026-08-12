@@ -51,6 +51,19 @@ window.deskforge.onStateUpdate(({ animation, facingLeft }) => {
   sprite.style.transform = facingLeft ? 'scaleX(-1)' : 'scaleX(1)';
 });
 
+window.deskforge.onMessage((text) => {
+  if (text === null) {
+    if (!promptOpen) panel.classList.add('hidden');
+    bubble.classList.add('hidden');
+    return;
+  }
+  if (promptOpen) return;
+  panel.classList.remove('hidden');
+  promptInput.classList.add('hidden');
+  bubble.classList.remove('hidden');
+  bubble.textContent = text;
+});
+
 sprite.addEventListener('contextmenu', (event) => {
   event.preventDefault();
   window.deskforge.requestContextMenu();

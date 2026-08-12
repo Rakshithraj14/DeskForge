@@ -6,6 +6,7 @@ function showContextMenu(overlayWindow, tickLoop) {
     { label: 'Pet', click: () => tickLoop.pet() },
     { type: 'separator' },
     { label: 'Toggle Sleep', click: () => tickLoop.toggleSleep() },
+    { label: 'Follow Cursor', type: 'checkbox', checked: tickLoop.isFollowingCursor(), click: () => tickLoop.toggleFollowCursor() },
     { type: 'separator' },
     { label: 'Quit', click: () => app.quit() },
   ]);
