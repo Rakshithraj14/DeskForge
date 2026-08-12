@@ -5,6 +5,7 @@ const { getActionPlan } = require('./ai');
 const { testConnection: testOllamaConnection } = require('./ai/ollama');
 const { runTool } = require('./tools');
 const { loadSettings, getSettingsForRenderer, saveSettings } = require('./settings-store');
+const { listCharacters } = require('./characters');
 
 function registerIpc(overlayWindow, tickLoop) {
   let dragOffset = null;
@@ -53,6 +54,19 @@ function registerIpc(overlayWindow, tickLoop) {
     overlayWindow.setOpacity(opacity);
     saveSettings({ overlayOpacity: opacity });
     return opacity;
+  });
+
+  ipcMain.handle('character:get-active', () => loadSettings().characterId);
+
+  ipcMain.handle('characters:list', () => listCharacters());
+
+  ipcMain.handle('characters:select', (event, id) => {
+    if (!listCharacters().some((c) => c.id === id)) {
+      throw new Error(`Unknown character: ${id}`);
+    }
+    saveSettings({ characterId: id });
+    overlayWindow.webContents.send('character:changed', id);
+    return id;
   });
 
   ipcMain.handle('dashboard:stats', () => tickLoop.getStats());

@@ -13,7 +13,9 @@ function openSettingsWindow() {
   settingsWindow = new BrowserWindow({
     width: 400,
     height: 660,
-    resizable: false,
+    minWidth: 360,
+    minHeight: 480,
+    resizable: true,
     title: 'DeskForge Dashboard',
     webPreferences: {
       contextIsolation: true,

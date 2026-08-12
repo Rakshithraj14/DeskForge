@@ -6,13 +6,92 @@ body {
   background: #fafafa;
 }
 
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
 header {
-  margin-bottom: 12px;
+  max-width: 480px;
+  margin: 0 auto 12px;
 }
 
 h1 {
   font-size: 17px;
   margin: 0;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.tab-btn {
+  flex: 1;
+  background: none;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  padding: 6px;
+  font: 12px sans-serif;
+  font-weight: 600;
+  color: #8a5a34;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: #f2a65a;
+  color: #2b2b2b;
+  border-color: #f2a65a;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+.pets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pet-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.pet-card.active {
+  border-color: #f2a65a;
+  background: #fff6ec;
+}
+
+.pet-preview {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
+
+.pet-info {
+  flex: 1;
+}
+
+.pet-name {
+  font-weight: 600;
+}
+
+.pet-current-tag {
+  font-size: 11px;
+  color: #4a9a4a;
 }
 
 h2 {

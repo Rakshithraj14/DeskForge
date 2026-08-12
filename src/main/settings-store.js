@@ -18,6 +18,7 @@ function defaultSettings() {
     claudeModel: 'claude-sonnet-4-5',
     codexModel: 'gpt-4o-mini',
     overlayOpacity: 1,
+    characterId: 'default-cat',
   };
 }
 

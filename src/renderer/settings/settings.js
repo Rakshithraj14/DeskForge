@@ -16,9 +16,68 @@ function showFieldsFor(provider) {
 
 providerSelect.addEventListener('change', () => showFieldsFor(providerSelect.value));
 
+document.querySelectorAll('.tab-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach((p) => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+    if (btn.dataset.tab === 'pets') renderPets();
+  });
+});
+
+const petsList = document.getElementById('pets-list');
+let currentCharacterId = null;
+
+async function renderPets() {
+  const characters = await window.deskforgeDashboard.listCharacters();
+  petsList.innerHTML = '';
+
+  for (const char of characters) {
+    const dir = `../../../characters/${char.id}/`;
+    const meta = await fetch(dir + 'character.json').then((r) => r.json());
+    const idle = meta.animations.idle;
+    const nativeW = meta.frameWidth || meta.frameSize;
+    const nativeH = meta.frameHeight || meta.frameSize;
+    const fit = Math.min(56 / nativeW, 56 / nativeH);
+    const dispW = nativeW * fit;
+    const dispH = nativeH * fit;
+    const isActive = char.id === currentCharacterId;
+
+    const card = document.createElement('div');
+    card.className = `pet-card${isActive ? ' active' : ''}`;
+
+    const preview = document.createElement('div');
+    preview.className = 'pet-preview';
+    preview.style.width = `${dispW}px`;
+    preview.style.height = `${dispH}px`;
+    preview.style.backgroundImage = `url(${dir}${idle.sheet})`;
+    preview.style.backgroundSize = `${dispW * idle.frames}px ${dispH}px`;
+
+    const info = document.createElement('div');
+    info.className = 'pet-info';
+    info.innerHTML = `<div class="pet-name">${meta.name}</div>${isActive ? '<div class="pet-current-tag">Currently active</div>' : ''}`;
+
+    const selectBtn = document.createElement('button');
+    selectBtn.type = 'button';
+    selectBtn.className = 'secondary pet-select-btn';
+    selectBtn.textContent = isActive ? 'Selected' : 'Select';
+    selectBtn.disabled = isActive;
+    selectBtn.addEventListener('click', async () => {
+      await window.deskforgeDashboard.selectCharacter(char.id);
+      currentCharacterId = char.id;
+      renderPets();
+    });
+
+    card.append(preview, info, selectBtn);
+    petsList.appendChild(card);
+  }
+}
+
 async function init() {
   const settings = await window.deskforgeDashboard.getSettings();
 
+  currentCharacterId = settings.characterId;
   document.getElementById('userName').value = settings.userName || '';
   document.getElementById('petName').value = settings.petName || '';
   document.getElementById('opacity').value = settings.overlayOpacity ?? 1;

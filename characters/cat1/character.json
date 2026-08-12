@@ -1,0 +1,21 @@
+{
+  "name": "SalaryCat",
+  "type": "cat",
+  "frameWidth": 192,
+  "frameHeight": 208,
+  "scale": 0.577,
+  "animations": {
+    "idle": { "sheet": "sprites/idle.png", "frames": 6, "fps": 8 },
+    "walk": { "sheet": "sprites/walk.png", "frames": 8, "fps": 12 },
+    "sleep": { "sheet": "sprites/sleep.png", "frames": 6, "fps": 6 },
+    "thinking": { "sheet": "sprites/thinking.png", "frames": 6, "fps": 8 },
+    "success": { "sheet": "sprites/success.png", "frames": 5, "fps": 10 },
+    "error": { "sheet": "sprites/error.png", "frames": 8, "fps": 8 }
+  },
+  "personality": {
+    "playful": 0.7,
+    "lazy": 0.3,
+    "friendly": 0.8,
+    "moodswing": 0.4
+  }
+}

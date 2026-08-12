@@ -9,4 +9,6 @@ contextBridge.exposeInMainWorld('deskforgeDashboard', {
   toggleSleep: () => ipcRenderer.invoke('dashboard:toggle-sleep'),
   testConnection: (ollamaBaseUrl) => ipcRenderer.invoke('dashboard:test-connection', ollamaBaseUrl),
   setOpacity: (value) => ipcRenderer.invoke('dashboard:set-opacity', value),
+  listCharacters: () => ipcRenderer.invoke('characters:list'),
+  selectCharacter: (id) => ipcRenderer.invoke('characters:select', id),
 });

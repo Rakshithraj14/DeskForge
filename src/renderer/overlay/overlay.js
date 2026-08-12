@@ -3,38 +3,48 @@ const panel = document.getElementById('panel');
 const promptInput = document.getElementById('prompt-input');
 const bubble = document.getElementById('bubble');
 
-const CHARACTER_DIR = '../../../characters/default-cat/';
-
+let characterDir = null;
 let character = null;
 let currentAnimation = null;
 let frameIndex = 0;
 let frameTimer = null;
+let lastAnimationName = 'idle';
 
-async function loadCharacter() {
-  const response = await fetch(CHARACTER_DIR + 'character.json');
+async function loadCharacter(id) {
+  characterDir = `../../../characters/${id}/`;
+  const response = await fetch(characterDir + 'character.json');
   character = await response.json();
+  currentAnimation = null;
 }
 
 function playAnimation(name) {
   if (!character) return;
+  lastAnimationName = name;
   const anim = character.animations[name] || character.animations.idle;
   if (name === currentAnimation) return;
   currentAnimation = name;
   frameIndex = 0;
 
-  const frameSize = character.frameSize * character.scale;
-  sprite.style.backgroundImage = `url(${CHARACTER_DIR}${anim.sheet})`;
-  sprite.style.backgroundSize = `${frameSize * anim.frames}px ${frameSize}px`;
+  const frameWidth = (character.frameWidth || character.frameSize) * character.scale;
+  const frameHeight = (character.frameHeight || character.frameSize) * character.scale;
+  sprite.style.backgroundImage = `url(${characterDir}${anim.sheet})`;
+  sprite.style.backgroundSize = `${frameWidth * anim.frames}px ${frameHeight}px`;
   sprite.style.backgroundPosition = '0px 0px';
 
   clearInterval(frameTimer);
   frameTimer = setInterval(() => {
     frameIndex = (frameIndex + 1) % anim.frames;
-    sprite.style.backgroundPosition = `-${frameIndex * frameSize}px 0px`;
+    sprite.style.backgroundPosition = `-${frameIndex * frameWidth}px 0px`;
   }, 1000 / anim.fps);
 }
 
-loadCharacter().then(() => playAnimation('idle'));
+window.deskforge.getActiveCharacter()
+  .then(loadCharacter)
+  .then(() => playAnimation('idle'));
+
+window.deskforge.onCharacterChanged((id) => {
+  loadCharacter(id).then(() => playAnimation(lastAnimationName));
+});
 
 window.deskforge.onStateUpdate(({ animation, facingLeft }) => {
   playAnimation(animation);
