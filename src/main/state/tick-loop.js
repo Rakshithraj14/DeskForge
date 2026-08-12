@@ -1,4 +1,5 @@
 const { screen } = require('electron');
+const { applyFeed, applyPet, applySleepTick, applyDecay } = require('./character-state');
 
 const WALK_SPEED = 2; // px per tick
 const TICK_MS = 150;
@@ -19,12 +20,13 @@ function pickTarget(windowSize) {
   };
 }
 
-function createTickLoop(overlayWindow, windowSize) {
+function createTickLoop(overlayWindow, windowSize, initialStats) {
   let sleeping = false;
   let dragging = false;
   let target = null;
   let pauseTicksLeft = randomPause();
   let lastKey = null;
+  let stats = initialStats;
 
   function sendState(animation, facingLeft = false) {
     const key = `${animation}:${facingLeft}`;
@@ -34,6 +36,8 @@ function createTickLoop(overlayWindow, windowSize) {
   }
 
   const interval = setInterval(() => {
+    stats = sleeping ? applySleepTick(stats, TICK_MS) : applyDecay(stats, TICK_MS);
+
     if (dragging) return;
 
     if (sleeping) {
@@ -81,6 +85,13 @@ function createTickLoop(overlayWindow, windowSize) {
       if (sleeping) target = null;
     },
     isSleeping: () => sleeping,
+    feed: () => {
+      stats = applyFeed(stats);
+    },
+    pet: () => {
+      stats = applyPet(stats);
+    },
+    getStats: () => stats,
   };
 }
 
