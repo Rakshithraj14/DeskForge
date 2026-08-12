@@ -17,6 +17,7 @@ function defaultSettings() {
     ollamaBaseUrl: 'http://localhost:11434',
     claudeModel: 'claude-sonnet-4-5',
     codexModel: 'gpt-4o-mini',
+    overlayOpacity: 1,
   };
 }
 

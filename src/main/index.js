@@ -5,6 +5,7 @@ const { registerIpc } = require('./ipc');
 const { createTickLoop } = require('./state/tick-loop');
 const { createInitialState } = require('./state/character-state');
 const { loadState, createPersistence } = require('./state/persistence');
+const { loadSettings } = require('./settings-store');
 
 let overlayWindow = null;
 
@@ -24,6 +25,7 @@ if (!app.requestSingleInstanceLock()) {
 
   app.whenReady().then(() => {
     overlayWindow = createOverlayWindow();
+    overlayWindow.setOpacity(loadSettings().overlayOpacity);
     const initialStats = loadState(createInitialState());
     const tickLoop = createTickLoop(overlayWindow, { width: WIDTH, height: HEIGHT }, initialStats);
     const persistence = createPersistence(() => tickLoop.getStats());

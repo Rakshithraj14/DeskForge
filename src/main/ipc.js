@@ -48,6 +48,13 @@ function registerIpc(overlayWindow, tickLoop) {
     saveSettings(partial || {});
   });
 
+  ipcMain.handle('dashboard:set-opacity', (event, value) => {
+    const opacity = Math.max(0.2, Math.min(1, Number(value) || 1));
+    overlayWindow.setOpacity(opacity);
+    saveSettings({ overlayOpacity: opacity });
+    return opacity;
+  });
+
   ipcMain.handle('dashboard:stats', () => tickLoop.getStats());
   ipcMain.handle('dashboard:feed', () => tickLoop.feed());
   ipcMain.handle('dashboard:pet', () => tickLoop.pet());
@@ -80,13 +87,16 @@ function registerIpc(overlayWindow, tickLoop) {
       }
     }
 
-    if (results.some((r) => !r.ok)) {
+    const failed = results.filter((r) => !r.ok);
+    let reply = plan.reply;
+    if (failed.length > 0) {
       tickLoop.reactError();
+      reply += `\n\n${failed.map((r) => `Couldn't ${r.tool.replace('_', ' ')}: ${r.error}`).join('\n')}`;
     } else {
       tickLoop.reactSuccess();
     }
 
-    return { reply: plan.reply, actions: plan.actions, results };
+    return { reply, actions: plan.actions, results };
   });
 }
 

@@ -115,7 +115,7 @@ promptInput.addEventListener('keydown', async (event) => {
   const response = await window.deskforge.sendPrompt(text);
   bubble.textContent = response.reply || '...';
 
-  setTimeout(closePrompt, 4000);
+  setTimeout(closePrompt, Math.min(12000, Math.max(4000, bubble.textContent.length * 60)));
 });
 
 promptInput.addEventListener('blur', () => {

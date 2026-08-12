@@ -101,9 +101,11 @@ function createTickLoop(overlayWindow, windowSize, initialStats) {
     },
     feed: () => {
       stats = applyFeed(stats);
+      reaction = { animation: 'success', ticksLeft: REACTION_TICKS };
     },
     pet: () => {
       stats = applyPet(stats);
+      reaction = { animation: 'success', ticksLeft: REACTION_TICKS };
     },
     getStats: () => stats,
     reactThinking: () => {

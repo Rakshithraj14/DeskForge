@@ -21,6 +21,7 @@ async function init() {
 
   document.getElementById('userName').value = settings.userName || '';
   document.getElementById('petName').value = settings.petName || '';
+  document.getElementById('opacity').value = settings.overlayOpacity ?? 1;
 
   providerSelect.value = settings.provider;
   showFieldsFor(settings.provider);
@@ -63,6 +64,10 @@ document.getElementById('pet-btn').addEventListener('click', async () => {
 
 document.getElementById('sleep-btn').addEventListener('click', async () => {
   await window.deskforgeDashboard.toggleSleep();
+});
+
+document.getElementById('opacity').addEventListener('input', (event) => {
+  window.deskforgeDashboard.setOpacity(Number(event.target.value));
 });
 
 document.getElementById('test-connection').addEventListener('click', async () => {

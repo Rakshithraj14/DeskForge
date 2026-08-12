@@ -10,7 +10,7 @@ const BASE_PROMPT = `You are the brain of a small desktop companion character. T
 Valid tool names are exactly: open_application, open_file, open_folder, list_files, play_music.
 - open_application: args { "name": string } - name or path of an application to launch.
 - open_file: args { "path": string } - absolute path of a file to open with its default app.
-- open_folder: args { "path": string } - absolute path of a folder to open in the file manager.
+- open_folder: args { "path": string } - absolute path of a folder to open in the file manager. Special names like "this pc", "desktop", "documents", "downloads", "pictures", "music", "videos", and "recycle bin" are also accepted as-is.
 - list_files: args { "path": string } - absolute path of a folder to list.
 - play_music: args { "path": string } - absolute path of an audio file to play.
 
