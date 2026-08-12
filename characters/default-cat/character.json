@@ -2,7 +2,9 @@
   "name": "Mochi",
   "type": "cat",
   "animations": {
-    "idle": "sprites/idle.svg"
+    "idle": "sprites/idle.svg",
+    "walk": "sprites/walk.svg",
+    "sleep": "sprites/sleep.svg"
   },
   "personality": {
     "playful": 0.9,
