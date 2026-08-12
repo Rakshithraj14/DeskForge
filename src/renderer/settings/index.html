@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="settings.css" />
+</head>
+<body>
+  <h1>DeskForge Settings</h1>
+
+  <label class="field">
+    AI Provider
+    <select id="provider">
+      <option value="ollama">Ollama (local)</option>
+      <option value="claude">Claude</option>
+      <option value="codex">Codex (OpenAI)</option>
+    </select>
+  </label>
+
+  <div id="ollama-fields" class="provider-fields">
+    <label class="field">Model <input id="ollamaModel" type="text" placeholder="llama3.2" /></label>
+    <label class="field">Base URL <input id="ollamaBaseUrl" type="text" placeholder="http://localhost:11434" /></label>
+  </div>
+
+  <div id="claude-fields" class="provider-fields">
+    <label class="field">Model <input id="claudeModel" type="text" placeholder="claude-sonnet-4-5" /></label>
+    <label class="field">API Key <input id="claudeApiKey" type="password" placeholder="leave blank to keep existing" /></label>
+    <p id="claude-key-status" class="key-status"></p>
+  </div>
+
+  <div id="codex-fields" class="provider-fields">
+    <label class="field">Model <input id="codexModel" type="text" placeholder="gpt-4o-mini" /></label>
+    <label class="field">API Key <input id="codexApiKey" type="password" placeholder="leave blank to keep existing" /></label>
+    <p id="codex-key-status" class="key-status"></p>
+  </div>
+
+  <button id="save">Save</button>
+  <p id="save-status"></p>
+
+  <script src="settings.js"></script>
+</body>
+</html>

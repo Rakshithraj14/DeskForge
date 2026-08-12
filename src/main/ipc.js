@@ -3,6 +3,7 @@ const { showContextMenu } = require('./context-menu');
 const { expandForPrompt, collapse } = require('./overlay-window');
 const { getActionPlan } = require('./ai');
 const { runTool } = require('./tools');
+const { loadSettings, getSettingsForRenderer, saveSettings } = require('./settings-store');
 
 function registerIpc(overlayWindow, tickLoop) {
   let dragOffset = null;
@@ -40,12 +41,19 @@ function registerIpc(overlayWindow, tickLoop) {
     collapse(overlayWindow);
   });
 
+  ipcMain.handle('settings:get', () => getSettingsForRenderer());
+
+  ipcMain.handle('settings:save', (event, partial) => {
+    saveSettings(partial || {});
+  });
+
   ipcMain.handle('ai:prompt', async (event, text) => {
     tickLoop.reactThinking();
 
+    const settings = loadSettings();
     let plan;
     try {
-      plan = await getActionPlan('ollama', text, {});
+      plan = await getActionPlan(settings.provider, text, settings);
     } catch (err) {
       tickLoop.reactError();
       return { reply: `Something went wrong talking to the AI: ${err.message}`, actions: [], results: [] };

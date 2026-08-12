@@ -1,8 +1,8 @@
 {
   "name": "Mochi",
   "type": "cat",
-  "frameSize": 24,
-  "scale": 4,
+  "frameSize": 40,
+  "scale": 3,
   "animations": {
     "idle": { "sheet": "sprites/idle.png", "frames": 2, "fps": 2 },
     "walk": { "sheet": "sprites/walk.png", "frames": 2, "fps": 4 },

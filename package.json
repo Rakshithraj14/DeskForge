@@ -18,10 +18,13 @@
     "appId": "com.deskforge.app",
     "productName": "DeskForge",
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "build/icon.ico"
     }
   },
   "dependencies": {
-    "open": "^11.0.0"
+    "@anthropic-ai/sdk": "^0.116.0",
+    "open": "^11.0.0",
+    "openai": "^7.4.0"
   }
 }

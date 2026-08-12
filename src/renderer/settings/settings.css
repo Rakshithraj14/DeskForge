@@ -1,0 +1,65 @@
+body {
+  margin: 0;
+  padding: 20px;
+  font: 13px sans-serif;
+  color: #2b2b2b;
+  background: #fafafa;
+}
+
+h1 {
+  font-size: 16px;
+  margin: 0 0 16px;
+}
+
+.field {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.field input,
+.field select {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 4px;
+  padding: 6px 8px;
+  font: 13px sans-serif;
+  font-weight: normal;
+  border: 1px solid #c9c9c9;
+  border-radius: 6px;
+}
+
+.provider-fields {
+  display: none;
+  border-top: 1px solid #e5e5e5;
+  padding-top: 8px;
+  margin-bottom: 8px;
+}
+
+.key-status {
+  margin: -6px 0 12px;
+  font-size: 12px;
+  color: #777;
+}
+
+button {
+  width: 100%;
+  padding: 8px;
+  font: 13px sans-serif;
+  font-weight: 600;
+  background: #f2a65a;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #e8954a;
+}
+
+#save-status {
+  text-align: center;
+  color: #4a9a4a;
+  min-height: 16px;
+}

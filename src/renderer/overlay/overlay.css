@@ -14,10 +14,10 @@ body {
 
 #sprite {
   position: absolute;
-  left: 22px;
-  top: 32px;
-  width: 96px;
-  height: 96px;
+  left: 10px;
+  top: 20px;
+  width: 120px;
+  height: 120px;
   background-repeat: no-repeat;
   image-rendering: pixelated;
   cursor: grab;
