@@ -96,63 +96,67 @@ function createTickLoop(overlayWindow, windowSize, initialStats) {
   }
 
   const interval = setInterval(() => {
-    stats = sleeping ? applySleepTick(stats, TICK_MS) : applyDecay(stats, TICK_MS);
+    try {
+      stats = sleeping ? applySleepTick(stats, TICK_MS) : applyDecay(stats, TICK_MS);
 
-    if (reaction) {
-      sendState(reaction.animation);
-      reaction.ticksLeft -= 1;
-      if (reaction.ticksLeft <= 0) reaction = null;
-      return;
-    }
+      if (reaction) {
+        sendState(reaction.animation);
+        reaction.ticksLeft -= 1;
+        if (reaction.ticksLeft <= 0) reaction = null;
+        return;
+      }
 
-    if (dragging || promptOpen || messageShowing) return;
+      if (dragging || promptOpen || messageShowing) return;
 
-    if (sleeping) {
-      sendState('sleep');
-      return;
-    }
+      if (sleeping) {
+        sendState('sleep');
+        return;
+      }
 
-    idleMessageTicksLeft -= 1;
-    if (idleMessageTicksLeft <= 0) {
-      idleMessageTicksLeft = randomIdleMessageTicks();
-      showMessage(pickRandom(IDLE_MESSAGES));
-    }
+      idleMessageTicksLeft -= 1;
+      if (idleMessageTicksLeft <= 0) {
+        idleMessageTicksLeft = randomIdleMessageTicks();
+        showMessage(pickRandom(IDLE_MESSAGES));
+      }
 
-    if (followCursor) {
-      const cursor = screen.getCursorScreenPos();
-      target = clampToWorkArea(
-        { x: cursor.x + FOLLOW_OFFSET_X, y: cursor.y + FOLLOW_OFFSET_Y },
-        windowSize
-      );
-    } else if (!target) {
-      if (pauseTicksLeft > 0) {
-        pauseTicksLeft -= 1;
+      if (followCursor) {
+        const cursor = screen.getCursorScreenPoint();
+        target = clampToWorkArea(
+          { x: cursor.x + FOLLOW_OFFSET_X, y: cursor.y + FOLLOW_OFFSET_Y },
+          windowSize
+        );
+      } else if (!target) {
+        if (pauseTicksLeft > 0) {
+          pauseTicksLeft -= 1;
+          sendState('idle');
+          return;
+        }
+        target = pickTarget(windowSize);
+      }
+
+      const [curX, curY] = overlayWindow.getPosition();
+      const dx = target.x - curX;
+      const dy = target.y - curY;
+      const dist = Math.hypot(dx, dy);
+
+      if (dist < WALK_SPEED) {
+        overlayWindow.setPosition(Math.round(target.x), Math.round(target.y));
+        if (!followCursor) {
+          target = null;
+          pauseTicksLeft = randomPause();
+        }
         sendState('idle');
         return;
       }
-      target = pickTarget(windowSize);
+
+      overlayWindow.setPosition(
+        Math.round(curX + (dx / dist) * WALK_SPEED),
+        Math.round(curY + (dy / dist) * WALK_SPEED)
+      );
+      sendState('walk', dx < 0);
+    } catch (err) {
+      console.error('tick loop error:', err);
     }
-
-    const [curX, curY] = overlayWindow.getPosition();
-    const dx = target.x - curX;
-    const dy = target.y - curY;
-    const dist = Math.hypot(dx, dy);
-
-    if (dist < WALK_SPEED) {
-      overlayWindow.setPosition(Math.round(target.x), Math.round(target.y));
-      if (!followCursor) {
-        target = null;
-        pauseTicksLeft = randomPause();
-      }
-      sendState('idle');
-      return;
-    }
-
-    overlayWindow.setPosition(
-      Math.round(curX + (dx / dist) * WALK_SPEED),
-      Math.round(curY + (dy / dist) * WALK_SPEED)
-    );
-    sendState('walk', dx < 0);
   }, TICK_MS);
 
   return {
