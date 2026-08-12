@@ -6,4 +6,7 @@ contextBridge.exposeInMainWorld('deskforge', {
   endDrag: () => ipcRenderer.send('overlay:drag-end'),
   requestContextMenu: () => ipcRenderer.send('overlay:context-menu'),
   onStateUpdate: (callback) => ipcRenderer.on('character:state', (event, state) => callback(state)),
+  expandForPrompt: () => ipcRenderer.invoke('overlay:expand'),
+  collapse: () => ipcRenderer.invoke('overlay:collapse'),
+  sendPrompt: (text) => ipcRenderer.invoke('ai:prompt', text),
 });

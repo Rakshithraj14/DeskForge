@@ -3,6 +3,7 @@ const path = require('node:path');
 
 const WIDTH = 140;
 const HEIGHT = 160;
+const PROMPT_EXTRA_WIDTH = 220;
 
 function createOverlayWindow() {
   const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
@@ -31,4 +32,18 @@ function createOverlayWindow() {
   return win;
 }
 
-module.exports = { createOverlayWindow, WIDTH, HEIGHT };
+function expandForPrompt(win) {
+  const [x, y] = win.getPosition();
+  const { x: screenX, width: screenWidth } = screen.getPrimaryDisplay().workArea;
+  const newWidth = WIDTH + PROMPT_EXTRA_WIDTH;
+  const maxX = screenX + screenWidth - newWidth;
+  const newX = Math.min(x, Math.max(screenX, maxX));
+  win.setBounds({ x: newX, y, width: newWidth, height: HEIGHT });
+}
+
+function collapse(win) {
+  const [x, y] = win.getPosition();
+  win.setBounds({ x, y, width: WIDTH, height: HEIGHT });
+}
+
+module.exports = { createOverlayWindow, expandForPrompt, collapse, WIDTH, HEIGHT };

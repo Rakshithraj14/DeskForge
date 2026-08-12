@@ -5,7 +5,11 @@
   <link rel="stylesheet" href="overlay.css" />
 </head>
 <body>
-  <img id="sprite" src="../../../characters/default-cat/sprites/idle.svg" draggable="false" alt="DeskForge companion" />
+  <div id="sprite" role="img" aria-label="DeskForge companion"></div>
+  <div id="panel" class="hidden">
+    <input id="prompt-input" placeholder="Type a command..." autocomplete="off" />
+    <div id="bubble" class="hidden"></div>
+  </div>
   <script src="overlay.js"></script>
 </body>
 </html>

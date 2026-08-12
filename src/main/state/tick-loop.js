@@ -5,6 +5,7 @@ const WALK_SPEED = 2; // px per tick
 const TICK_MS = 150;
 const PAUSE_MIN_TICKS = 15; // ~2.25s
 const PAUSE_MAX_TICKS = 40; // ~6s
+const REACTION_TICKS = Math.round(3000 / TICK_MS); // ~3s
 
 function randomPause() {
   return PAUSE_MIN_TICKS + Math.floor(Math.random() * (PAUSE_MAX_TICKS - PAUSE_MIN_TICKS));
@@ -23,10 +24,12 @@ function pickTarget(windowSize) {
 function createTickLoop(overlayWindow, windowSize, initialStats) {
   let sleeping = false;
   let dragging = false;
+  let promptOpen = false;
   let target = null;
   let pauseTicksLeft = randomPause();
   let lastKey = null;
   let stats = initialStats;
+  let reaction = null; // { animation: 'thinking' | 'success' | 'error', ticksLeft }
 
   function sendState(animation, facingLeft = false) {
     const key = `${animation}:${facingLeft}`;
@@ -38,7 +41,14 @@ function createTickLoop(overlayWindow, windowSize, initialStats) {
   const interval = setInterval(() => {
     stats = sleeping ? applySleepTick(stats, TICK_MS) : applyDecay(stats, TICK_MS);
 
-    if (dragging) return;
+    if (reaction) {
+      sendState(reaction.animation);
+      reaction.ticksLeft -= 1;
+      if (reaction.ticksLeft <= 0) reaction = null;
+      return;
+    }
+
+    if (dragging || promptOpen) return;
 
     if (sleeping) {
       sendState('sleep');
@@ -85,6 +95,10 @@ function createTickLoop(overlayWindow, windowSize, initialStats) {
       if (sleeping) target = null;
     },
     isSleeping: () => sleeping,
+    setPromptOpen: (value) => {
+      promptOpen = value;
+      if (value) target = null;
+    },
     feed: () => {
       stats = applyFeed(stats);
     },
@@ -92,6 +106,15 @@ function createTickLoop(overlayWindow, windowSize, initialStats) {
       stats = applyPet(stats);
     },
     getStats: () => stats,
+    reactThinking: () => {
+      reaction = { animation: 'thinking', ticksLeft: Infinity };
+    },
+    reactSuccess: () => {
+      reaction = { animation: 'success', ticksLeft: REACTION_TICKS };
+    },
+    reactError: () => {
+      reaction = { animation: 'error', ticksLeft: REACTION_TICKS };
+    },
   };
 }
 

@@ -17,13 +17,11 @@
   "build": {
     "appId": "com.deskforge.app",
     "productName": "DeskForge",
-    "files": [
-      "src/**/*",
-      "characters/**/*",
-      "package.json"
-    ],
     "win": {
       "target": "nsis"
     }
+  },
+  "dependencies": {
+    "open": "^11.0.0"
   }
 }

@@ -1,10 +1,15 @@
 {
   "name": "Mochi",
   "type": "cat",
+  "frameSize": 24,
+  "scale": 4,
   "animations": {
-    "idle": "sprites/idle.svg",
-    "walk": "sprites/walk.svg",
-    "sleep": "sprites/sleep.svg"
+    "idle": { "sheet": "sprites/idle.png", "frames": 2, "fps": 2 },
+    "walk": { "sheet": "sprites/walk.png", "frames": 2, "fps": 4 },
+    "sleep": { "sheet": "sprites/sleep.png", "frames": 2, "fps": 1 },
+    "thinking": { "sheet": "sprites/thinking.png", "frames": 2, "fps": 3 },
+    "success": { "sheet": "sprites/success.png", "frames": 2, "fps": 3 },
+    "error": { "sheet": "sprites/error.png", "frames": 2, "fps": 3 }
   },
   "personality": {
     "playful": 0.9,
