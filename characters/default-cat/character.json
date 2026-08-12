@@ -1,0 +1,13 @@
+{
+  "name": "Mochi",
+  "type": "cat",
+  "animations": {
+    "idle": "sprites/idle.svg"
+  },
+  "personality": {
+    "playful": 0.9,
+    "lazy": 0.6,
+    "friendly": 1.0,
+    "moodswing": 0.2
+  }
+}
