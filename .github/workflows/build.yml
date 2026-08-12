@@ -10,6 +10,9 @@ on:
   push:
     branches: [main, dev]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
@@ -25,19 +28,37 @@ jobs:
 
       - run: npm run build
 
-      # ponytail: Telegram sendDocument caps uploads at 50MB; Electron NSIS
-      # installers commonly exceed that once real dependencies/assets are in.
-      # Upgrade path if this starts failing: upload to a GitHub Release /
-      # artifact store instead and send a link.
-      - name: Send installer to Telegram
+      # Telegram's sendDocument caps uploads at 50MB; an Electron installer
+      # (bundled Chromium + Node) is reliably well over that (confirmed via
+      # a real 413 from Telegram), so the file goes to a GitHub Release
+      # instead and Telegram just gets a link. Rolling tag per branch means
+      # each new build replaces the previous release asset.
+      - name: Publish installer to a GitHub Release
+        id: publish
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          FILE=$(ls dist/*.exe | head -n1)
+          TAG="${{ github.ref_name }}-latest"
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" \
+            --title "DeskForge ($TAG)" \
+            --notes "Automated build from ${{ github.sha }}" \
+            --target "${{ github.sha }}"
+          gh release upload "$TAG" "$FILE" --clobber
+          URL=$(gh api "repos/${{ github.repository }}/releases/tags/$TAG" --jq '.assets[0].browser_download_url')
+          echo "download_url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Notify Telegram
         shell: bash
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DOWNLOAD_URL: ${{ steps.publish.outputs.download_url }}
         run: |
           set -e
-          FILE=$(ls dist/*.exe | head -n1)
-          curl -sS -F document=@"$FILE" \
-            -F chat_id="$TELEGRAM_CHAT_ID" \
-            -F caption="DeskForge build ${{ github.ref_name }} @ ${{ github.sha }}" \
-            "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument"
+          TEXT=$(printf 'DeskForge build %s @ %s\n%s' "${{ github.ref_name }}" "${{ github.sha }}" "$DOWNLOAD_URL")
+          curl -sS -f -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            --data-urlencode chat_id="$TELEGRAM_CHAT_ID" \
+            --data-urlencode "text=$TEXT"
