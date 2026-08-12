@@ -1,4 +1,4 @@
-const { SYSTEM_PROMPT } = require('./prompt-template');
+const { buildSystemPrompt } = require('./prompt-template');
 const { validateActionPlan } = require('./validate');
 
 async function getActionPlan(userPrompt, settings = {}) {
@@ -12,7 +12,7 @@ async function getActionPlan(userPrompt, settings = {}) {
   const response = await client.messages.create({
     model: settings.claudeModel || 'claude-sonnet-4-5',
     max_tokens: 1024,
-    system: SYSTEM_PROMPT,
+    system: buildSystemPrompt(settings),
     messages: [{ role: 'user', content: userPrompt }],
   });
 

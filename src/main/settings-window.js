@@ -11,10 +11,10 @@ function openSettingsWindow() {
   }
 
   settingsWindow = new BrowserWindow({
-    width: 380,
-    height: 460,
+    width: 400,
+    height: 660,
     resizable: false,
-    title: 'DeskForge Settings',
+    title: 'DeskForge Dashboard',
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,

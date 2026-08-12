@@ -1,4 +1,4 @@
-const SYSTEM_PROMPT = `You are the brain of a small desktop companion character. The user gives you a request in natural language. Respond with a single JSON object only - no prose, no markdown fences - matching this exact shape:
+const BASE_PROMPT = `You are the brain of a small desktop companion character. The user gives you a request in natural language. Respond with a single JSON object only - no prose, no markdown fences - matching this exact shape:
 
 {
   "reply": "a short, in-character reply to show the user",
@@ -16,4 +16,15 @@ Valid tool names are exactly: open_application, open_file, open_folder, list_fil
 
 If the request needs no actions, return an empty actions array. Never invent a tool name outside this list.`;
 
-module.exports = { SYSTEM_PROMPT };
+function buildSystemPrompt(settings = {}) {
+  let prompt = BASE_PROMPT;
+  if (settings.petName) {
+    prompt += `\n\nYour name is ${settings.petName}.`;
+  }
+  if (settings.userName) {
+    prompt += `\n\nThe user's name is ${settings.userName}. You may address them by name.`;
+  }
+  return prompt;
+}
+
+module.exports = { buildSystemPrompt };

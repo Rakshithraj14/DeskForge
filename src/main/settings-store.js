@@ -10,6 +10,8 @@ function settingsPath() {
 
 function defaultSettings() {
   return {
+    userName: '',
+    petName: 'Mochi',
     provider: 'ollama',
     ollamaModel: 'llama3.2',
     ollamaBaseUrl: 'http://localhost:11434',

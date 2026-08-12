@@ -8,7 +8,7 @@ function createTray() {
   tray.setToolTip('DeskForge');
   tray.on('click', () => openSettingsWindow());
   tray.setContextMenu(Menu.buildFromTemplate([
-    { label: 'Settings', click: () => openSettingsWindow() },
+    { label: 'Dashboard', click: () => openSettingsWindow() },
     { type: 'separator' },
     { label: 'Quit', click: () => app.quit() },
   ]));

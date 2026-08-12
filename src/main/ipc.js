@@ -2,6 +2,7 @@ const { ipcMain } = require('electron');
 const { showContextMenu } = require('./context-menu');
 const { expandForPrompt, collapse } = require('./overlay-window');
 const { getActionPlan } = require('./ai');
+const { testConnection: testOllamaConnection } = require('./ai/ollama');
 const { runTool } = require('./tools');
 const { loadSettings, getSettingsForRenderer, saveSettings } = require('./settings-store');
 
@@ -45,6 +46,16 @@ function registerIpc(overlayWindow, tickLoop) {
 
   ipcMain.handle('settings:save', (event, partial) => {
     saveSettings(partial || {});
+  });
+
+  ipcMain.handle('dashboard:stats', () => tickLoop.getStats());
+  ipcMain.handle('dashboard:feed', () => tickLoop.feed());
+  ipcMain.handle('dashboard:pet', () => tickLoop.pet());
+  ipcMain.handle('dashboard:toggle-sleep', () => tickLoop.toggleSleep());
+
+  ipcMain.handle('dashboard:test-connection', async (event, ollamaBaseUrl) => {
+    const settings = loadSettings();
+    return testOllamaConnection(ollamaBaseUrl || settings.ollamaBaseUrl);
   });
 
   ipcMain.handle('ai:prompt', async (event, text) => {

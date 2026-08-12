@@ -5,35 +5,74 @@
   <link rel="stylesheet" href="settings.css" />
 </head>
 <body>
-  <h1>DeskForge Settings</h1>
+  <header>
+    <h1>DeskForge Dashboard</h1>
+  </header>
 
-  <label class="field">
-    AI Provider
-    <select id="provider">
-      <option value="ollama">Ollama (local)</option>
-      <option value="claude">Claude</option>
-      <option value="codex">Codex (OpenAI)</option>
-    </select>
-  </label>
+  <section class="card">
+    <h2>You</h2>
+    <label class="field">Your name <input id="userName" type="text" placeholder="What should we call you?" /></label>
+  </section>
 
-  <div id="ollama-fields" class="provider-fields">
-    <label class="field">Model <input id="ollamaModel" type="text" placeholder="llama3.2" /></label>
-    <label class="field">Base URL <input id="ollamaBaseUrl" type="text" placeholder="http://localhost:11434" /></label>
-  </div>
+  <section class="card">
+    <h2>Your Pet</h2>
+    <label class="field">Pet name <input id="petName" type="text" placeholder="Mochi" /></label>
 
-  <div id="claude-fields" class="provider-fields">
-    <label class="field">Model <input id="claudeModel" type="text" placeholder="claude-sonnet-4-5" /></label>
-    <label class="field">API Key <input id="claudeApiKey" type="password" placeholder="leave blank to keep existing" /></label>
-    <p id="claude-key-status" class="key-status"></p>
-  </div>
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-label">Hunger</span>
+        <div class="stat-bar"><div id="hunger-bar" class="stat-fill"></div></div>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Energy</span>
+        <div class="stat-bar"><div id="energy-bar" class="stat-fill"></div></div>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Happiness</span>
+        <div class="stat-bar"><div id="happiness-bar" class="stat-fill"></div></div>
+      </div>
+    </div>
 
-  <div id="codex-fields" class="provider-fields">
-    <label class="field">Model <input id="codexModel" type="text" placeholder="gpt-4o-mini" /></label>
-    <label class="field">API Key <input id="codexApiKey" type="password" placeholder="leave blank to keep existing" /></label>
-    <p id="codex-key-status" class="key-status"></p>
-  </div>
+    <div class="actions">
+      <button id="feed-btn" type="button" class="secondary">Feed</button>
+      <button id="pet-btn" type="button" class="secondary">Pet</button>
+      <button id="sleep-btn" type="button" class="secondary">Toggle Sleep</button>
+    </div>
+  </section>
 
-  <button id="save">Save</button>
+  <section class="card">
+    <h2>AI Connection</h2>
+    <label class="field">
+      Provider
+      <select id="provider">
+        <option value="ollama">Ollama (local)</option>
+        <option value="claude">Claude</option>
+        <option value="codex">Codex (OpenAI)</option>
+      </select>
+    </label>
+
+    <div id="ollama-fields" class="provider-fields">
+      <label class="field">Model <input id="ollamaModel" type="text" placeholder="llama3.2" /></label>
+      <label class="field">Base URL <input id="ollamaBaseUrl" type="text" placeholder="http://localhost:11434" /></label>
+    </div>
+
+    <div id="claude-fields" class="provider-fields">
+      <label class="field">Model <input id="claudeModel" type="text" placeholder="claude-sonnet-4-5" /></label>
+      <label class="field">API Key <input id="claudeApiKey" type="password" placeholder="leave blank to keep existing" /></label>
+      <p id="claude-key-status" class="key-status"></p>
+    </div>
+
+    <div id="codex-fields" class="provider-fields">
+      <label class="field">Model <input id="codexModel" type="text" placeholder="gpt-4o-mini" /></label>
+      <label class="field">API Key <input id="codexApiKey" type="password" placeholder="leave blank to keep existing" /></label>
+      <p id="codex-key-status" class="key-status"></p>
+    </div>
+
+    <button id="test-connection" type="button" class="secondary">Test Connection</button>
+    <p id="connection-status" class="connection-status"></p>
+  </section>
+
+  <button id="save" class="primary">Save</button>
   <p id="save-status"></p>
 
   <script src="settings.js"></script>

@@ -1,4 +1,4 @@
-const { SYSTEM_PROMPT } = require('./prompt-template');
+const { buildSystemPrompt } = require('./prompt-template');
 const { validateActionPlan } = require('./validate');
 
 async function getActionPlan(userPrompt, settings = {}) {
@@ -11,7 +11,7 @@ async function getActionPlan(userPrompt, settings = {}) {
     body: JSON.stringify({
       model,
       messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: buildSystemPrompt(settings) },
         { role: 'user', content: userPrompt },
       ],
       stream: false,
@@ -27,4 +27,18 @@ async function getActionPlan(userPrompt, settings = {}) {
   return validateActionPlan(data.message?.content ?? '');
 }
 
-module.exports = { getActionPlan };
+async function testConnection(baseUrl) {
+  try {
+    const response = await fetch(`${baseUrl || 'http://localhost:11434'}/api/tags`, {
+      signal: AbortSignal.timeout(3000),
+    });
+    return {
+      ok: response.ok,
+      message: response.ok ? 'Ollama is reachable.' : `Ollama responded with status ${response.status}.`,
+    };
+  } catch (err) {
+    return { ok: false, message: `Could not reach Ollama: ${err.message}` };
+  }
+}
+
+module.exports = { getActionPlan, testConnection };

@@ -1,4 +1,4 @@
-const { SYSTEM_PROMPT } = require('./prompt-template');
+const { buildSystemPrompt } = require('./prompt-template');
 const { validateActionPlan } = require('./validate');
 
 async function getActionPlan(userPrompt, settings = {}) {
@@ -13,7 +13,7 @@ async function getActionPlan(userPrompt, settings = {}) {
     model: settings.codexModel || 'gpt-4o-mini',
     response_format: { type: 'json_object' },
     messages: [
-      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'system', content: buildSystemPrompt(settings) },
       { role: 'user', content: userPrompt },
     ],
   });
