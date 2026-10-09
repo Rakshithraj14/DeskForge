@@ -1,0 +1,242 @@
+body {
+  margin: 0;
+  padding: 16px 20px 24px;
+  font: 13px sans-serif;
+  color: #2b2b2b;
+  background: #fafafa;
+}
+
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+header {
+  max-width: 480px;
+  margin: 0 auto 12px;
+}
+
+h1 {
+  font-size: 17px;
+  margin: 0;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.tab-btn {
+  flex: 1;
+  background: none;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  padding: 6px;
+  font: 12px sans-serif;
+  font-weight: 600;
+  color: #8a5a34;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: #f2a65a;
+  color: #2b2b2b;
+  border-color: #f2a65a;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+.pets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pet-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.pet-card.active {
+  border-color: #f2a65a;
+  background: #fff6ec;
+}
+
+.pet-preview {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
+
+.pet-info {
+  flex: 1;
+}
+
+.pet-name {
+  font-weight: 600;
+}
+
+.pet-current-tag {
+  font-size: 11px;
+  color: #4a9a4a;
+}
+
+h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #8a5a34;
+  margin: 0 0 10px;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.field {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.field input[type="range"] {
+  width: 100%;
+  margin-top: 4px;
+  padding: 0;
+  border: none;
+}
+
+.field input,
+.field select {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 4px;
+  padding: 6px 8px;
+  font: 13px sans-serif;
+  font-weight: normal;
+  border: 1px solid #c9c9c9;
+  border-radius: 6px;
+}
+
+.provider-fields {
+  display: none;
+  border-top: 1px solid #e5e5e5;
+  padding-top: 10px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.key-status {
+  margin: -6px 0 4px;
+  font-size: 12px;
+  color: #777;
+}
+
+.stats {
+  margin: 12px 0;
+}
+
+.stat {
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #666;
+}
+
+.stat-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: #eee;
+  overflow: hidden;
+  margin-top: 3px;
+}
+
+.stat-fill {
+  height: 100%;
+  width: 0%;
+  background: #f2a65a;
+  transition: width 0.3s ease;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  padding: 8px;
+  font: 13px sans-serif;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button.primary {
+  width: 100%;
+  background: #f2a65a;
+  color: #2b2b2b;
+}
+
+button.primary:hover {
+  background: #e8954a;
+}
+
+button.secondary {
+  flex: 1;
+  background: #f0f0f0;
+  color: #2b2b2b;
+}
+
+button.secondary:hover {
+  background: #e4e4e4;
+}
+
+#test-connection {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.connection-status {
+  margin: 8px 0 0;
+  font-size: 12px;
+  min-height: 16px;
+}
+
+.connection-status.ok {
+  color: #4a9a4a;
+}
+
+.connection-status.fail {
+  color: #c0392b;
+}
+
+#save-status {
+  text-align: center;
+  color: #4a9a4a;
+  min-height: 16px;
+}

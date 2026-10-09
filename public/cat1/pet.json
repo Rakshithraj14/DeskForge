@@ -1,0 +1,129 @@
+{
+  "id": "salary-cat",
+  "displayName": "SalaryCat 月薪喵",
+  "description": "The salary cat from SalaryCat — a kawaii cat that lives on your terminal, powered by Codex.",
+  "spritesheetPath": "spritesheet.webp",
+  "frame": {
+    "width": 192,
+    "height": 208,
+    "columns": 8,
+    "rows": 9
+  },
+  "animations": {
+    "idle": {
+      "frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "move_right": {
+      "frames": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "fps": 12,
+      "loop": true
+    },
+    "move_left": {
+      "frames": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "fps": 12,
+      "loop": true
+    },
+    "waving": {
+      "frames": [
+        24,
+        25,
+        26,
+        27
+      ],
+      "fps": 10,
+      "loop": false,
+      "fallback": "idle"
+    },
+    "jumping": {
+      "frames": [
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "fps": 10,
+      "loop": false,
+      "fallback": "idle"
+    },
+    "failed": {
+      "frames": [
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "waiting": {
+      "frames": [
+        48,
+        49,
+        50,
+        51,
+        52,
+        53
+      ],
+      "fps": 6,
+      "loop": true
+    },
+    "running": {
+      "frames": [
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "fps": 15,
+      "loop": true
+    },
+    "review": {
+      "frames": [
+        64,
+        65,
+        66,
+        67,
+        68,
+        69
+      ],
+      "fps": 8,
+      "loop": true
+    }
+  }
+}

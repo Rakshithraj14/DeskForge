@@ -6,7 +6,25 @@
   "main": "src/main/index.js",
   "scripts": {
     "start": "electron .",
-    "test": "node --test test/"
+    "test": "node --test test/*.test.js",
+    "build": "electron-builder --win --publish=never"
   },
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "electron": "^43.3.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.deskforge.app",
+    "productName": "DeskForge",
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    }
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.116.0",
+    "open": "^11.0.0",
+    "openai": "^7.4.0"
+  }
 }
